@@ -309,6 +309,7 @@ pub fn parse_lang(s: &str) -> Option<SupportLang> {
     match s.to_lowercase().as_str() {
         "rs" | "rust" => Some(SupportLang::Rust),
         "py" | "python" => Some(SupportLang::Python),
+        "r" => Some(SupportLang::R),
         "ts" | "typescript" => Some(SupportLang::TypeScript),
         "tsx" => Some(SupportLang::Tsx),
         "js" | "javascript" => Some(SupportLang::JavaScript),

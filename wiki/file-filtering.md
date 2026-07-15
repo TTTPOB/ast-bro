@@ -57,12 +57,12 @@ benches/data/
 
 For `search` / `find-related` / `index` only, an additional check: the file must have an extension that ast-bro can chunk structurally. The single source of truth is `chunker::is_indexable`:
 
-- Anything `ast-grep` can parse (`.rs`, `.py`, `.pyi`, `.ts`/`.tsx`/`.js`/`.jsx`/`.mjs`/`.cjs`, `.java`, `.cs`, `.go`, `.kt`/`.kts`, `.scala`/`.sc`, `.bash`/`.sh`, `.cpp`/`.hpp`/`.c`/`.h`, `.css`, `.dart`, `.ex`/`.exs`, `.hs`, `.hcl`, `.html`, `.json`, `.lua`, `.nix`, `.php`, `.rb`, `.swift`, `.yaml`/`.yml`, `.zig`, `.sol`)
+- Anything `ast-grep` can parse (`.rs`, `.py`, `.pyi`, `.ts`/`.tsx`/`.js`/`.jsx`/`.mjs`/`.cjs`, `.java`, `.cs`, `.go`, `.kt`/`.kts`, `.scala`/`.sc`, `.bash`/`.sh`, `.cpp`/`.hpp`/`.c`/`.h`, `.css`, `.dart`, `.ex`/`.exs`, `.hs`, `.hcl`, `.html`, `.json`, `.lua`, `.nix`, `.php`, `.r`/`.R`, `.rb`, `.swift`, `.yaml`/`.yml`, `.zig`, `.sol`)
 - Markdown variants (`.md`, `.markdown`, `.mdx`, `.mdown`)
 
 Everything else (binaries, lockfiles, images, fonts, `.min.js`, `.txt`, etc.) is skipped before the file is opened.
 
-`map` / `digest` / `show` / `implements` use a narrower set — only the languages with a hand-written adapter at [`src/adapters/`](../src/adapters/) (Rust, Python, TS family, Java, C#, C++, Go, Kotlin, Scala, PHP, Ruby, SQL, Markdown). The chunker's broader set means search supports more languages than map does. See [architecture.md](architecture.md).
+`map` / `digest` / `show` / `implements` use a narrower set — only the languages with a hand-written adapter at [`src/adapters/`](../src/adapters/) (Rust, Python, TS family, Java, C#, C++, Go, Kotlin, Scala, PHP, R, Ruby, SQL, Markdown). The chunker's broader set means search supports more languages than map does. See [architecture.md](architecture.md).
 
 ### 5. File-level guards (search / index only)
 

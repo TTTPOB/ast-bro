@@ -11,6 +11,7 @@ use crate::adapters::java::JavaAdapter;
 use crate::adapters::kotlin::KotlinAdapter;
 use crate::adapters::php::PhpAdapter;
 use crate::adapters::python::PythonAdapter;
+use crate::adapters::r::RAdapter;
 use crate::adapters::ruby::RubyAdapter;
 use crate::adapters::rust::RustAdapter;
 use crate::adapters::scala::ScalaAdapter;
@@ -50,6 +51,7 @@ fn is_supported_adapter(lang: SupportLang) -> bool {
         lang,
         SupportLang::Rust
             | SupportLang::Python
+            | SupportLang::R
             | SupportLang::TypeScript
             | SupportLang::Tsx
             | SupportLang::JavaScript
@@ -106,6 +108,11 @@ pub fn parse_file_for_hook(path: &Path) -> Option<ParseResult> {
             lang.ast_grep(source.clone()).root(),
         ),
         SupportLang::Python => PythonAdapter.parse(
+            path,
+            source.as_bytes(),
+            lang.ast_grep(source.clone()).root(),
+        ),
+        SupportLang::R => RAdapter.parse(
             path,
             source.as_bytes(),
             lang.ast_grep(source.clone()).root(),

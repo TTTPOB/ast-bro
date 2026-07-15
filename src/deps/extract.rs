@@ -48,6 +48,7 @@ pub fn extract(path: &Path, lang: Lang) -> Vec<RawImport> {
         Lang::Go => extract_go(&src),
         Lang::Cpp => extract_cpp(&src),
         Lang::Php => extract_php(&src),
+        Lang::R => Vec::new(),
         Lang::Ruby => extract_ruby(&src),
         Lang::Other => Vec::new(),
     }

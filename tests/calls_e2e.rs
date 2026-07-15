@@ -989,6 +989,74 @@ end
 }
 
 #[test]
+fn r_callers_finds_intra_file_caller() {
+    let tmp = tempfile::tempdir().unwrap();
+    let root = tmp.path();
+    write(
+        &root.join("analysis.R"),
+        r#"
+normalize <- function(values) {
+  values
+}
+summarize <- function(values) {
+  normalize(values)
+}
+"#,
+    );
+    let (out, code) = run_in(root, &["callers", "normalize", ".", "--rebuild"]);
+    assert_eq!(code, 0, "callers exited non-zero: {out}");
+    assert!(
+        out.contains("summarize"),
+        "expected `summarize` in callers, got:\n{out}"
+    );
+}
+
+#[test]
+fn r_callees_list_plain_namespace_and_extract_calls() {
+    let tmp = tempfile::tempdir().unwrap();
+    let root = tmp.path();
+    write(
+        &root.join("analysis.R"),
+        r#"
+normalize <- function(values) values
+summarize <- function(values, model) {
+  normalize(values)
+  stats::median(values)
+  model$predict(values)
+}
+"#,
+    );
+    let (out, code) = run_in(
+        root,
+        &[
+            "callees",
+            "summarize",
+            ".",
+            "--rebuild",
+            "--external",
+            "--json",
+            "--compact",
+        ],
+    );
+    assert_eq!(code, 0, "callees exited non-zero: {out}");
+    let value: serde_json::Value = serde_json::from_str(out.trim())
+        .unwrap_or_else(|error| panic!("invalid JSON ({error}):\n{out}"));
+    let matches = value["matches"].as_array().expect("matches array");
+    assert!(matches.iter().any(|item| {
+        item["kind"] == "call"
+            && item["target"].as_str() == Some("analysis.R::normalize")
+    }));
+    assert!(matches.iter().any(|item| {
+        item["kind"] == "call"
+            && item["target"].as_str() == Some("[unresolved] median")
+    }));
+    assert!(matches.iter().any(|item| {
+        item["kind"] == "call"
+            && item["target"].as_str() == Some("[unresolved] predict")
+    }));
+}
+
+#[test]
 fn ruby_callees_lists_construct_and_method_call() {
     // `run` exercises both Ruby call kinds the adapter classifies:
     //   `Greeter.new` → CallKind::Construct, name="Greeter" (constant receiver

@@ -240,6 +240,7 @@ pub fn detect_language(path: &Path) -> Option<ast_grep_language::SupportLang> {
     // Map program to language
     match program.as_str() {
         "python" | "pypy" => Some(SupportLang::Python),
+        "r" | "rscript" => Some(SupportLang::R),
         "ruby" | "rb" => Some(SupportLang::Ruby),
         "node" | "nodejs" | "bun" | "deno" => Some(SupportLang::TypeScript),
         "php" => Some(SupportLang::Php),
@@ -367,6 +368,17 @@ mod tests {
         assert_eq!(
             detect_language(&path),
             Some(ast_grep_language::SupportLang::Ruby)
+        );
+    }
+
+    #[test]
+    fn shebang_rscript() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("analysis");
+        std::fs::write(&path, "#!/usr/bin/env Rscript\nprint('hi')\n").unwrap();
+        assert_eq!(
+            detect_language(&path),
+            Some(ast_grep_language::SupportLang::R)
         );
     }
 

@@ -42,6 +42,7 @@ pub enum Lang {
     Go,
     Cpp,
     Php,
+    R,
     Ruby,
     Other,
 }
@@ -63,6 +64,7 @@ impl Lang {
             "go" => Self::Go,
             "cpp" | "cc" | "cxx" | "c++" | "hpp" | "hxx" | "hh" | "h++" | "h" => Self::Cpp,
             "php" => Self::Php,
+            "r" => Self::R,
             "rb" => Self::Ruby,
             _ => return None,
         };

@@ -3,7 +3,7 @@
 //! Two structural-aware strategies, picked by file extension:
 //!
 //! - **Anything ast-grep can parse** (bash, cpp, css, c#, dart, elixir, go,
-//!   haskell, hcl, html, java, json, kotlin, lua, nix, php, python, ruby, rust,
+//!   haskell, hcl, html, java, json, kotlin, lua, nix, php, python, R, ruby, rust,
 //!   scala, solidity, swift, ts/tsx/js, yaml) — split at top-level declaration
 //!   boundaries via ast-grep. The chunker doesn't need a per-language outline
 //!   adapter; it only needs the AST root + iteration of named children.
@@ -256,6 +256,10 @@ mod tests {
         assert_eq!(
             is_indexable(&PathBuf::from("a.kt")),
             Some(ChunkerKind::AstGrep(SupportLang::Kotlin))
+        );
+        assert_eq!(
+            is_indexable(&PathBuf::from("analysis.R")),
+            Some(ChunkerKind::AstGrep(SupportLang::R))
         );
         assert_eq!(
             is_indexable(&PathBuf::from("README.md")),

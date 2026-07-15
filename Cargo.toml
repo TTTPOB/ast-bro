@@ -34,8 +34,8 @@ name = "sb"
 path = "src/bin/sb.rs"
 
 [dependencies]
-ast-grep-core = "0.42.1"
-ast-grep-language = "0.42.1"
+ast-grep-core = { version = "0.44.1", git = "https://github.com/TTTPOB/ast-grep.git", rev = "b523cd4764fdcfb3bf3bfdf0f9a57e4cf0512f3f" }
+ast-grep-language = { version = "0.44.1", git = "https://github.com/TTTPOB/ast-grep.git", rev = "b523cd4764fdcfb3bf3bfdf0f9a57e4cf0512f3f" }
 tree-sitter = "0.26.3"
 clap = { version = "4.5", features = ["derive"] }
 ignore = "0.4.22"
