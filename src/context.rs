@@ -699,10 +699,7 @@ fn signature_from_meta(
 ) -> Option<String> {
     let (file_abs, line, _) = meta_location(calls, qn, root);
     let name = qn.name();
-    let pr = match parse_file_cached(&file_abs, cache) {
-        Some(p) => p,
-        None => return None,
-    };
+    let pr = parse_file_cached(&file_abs, cache).as_ref()?;
     let matches = crate::core::find_symbols(pr, name);
     for m in &matches {
         if m.start_line.abs_diff(line as usize) <= 1 {
